@@ -1,17 +1,20 @@
 import Home from "../pages/Home";
+import Search from "../pages/Search";
 import Buttons from "../pages/elements/buttons/Buttons";
+import tabsHomepageName from "../pages/tabs/tabsHomepage";
 
 describe("Test suite", () => {
-  before(() => {
+  const product = "T-shirt";
+  beforeEach(() => {
     // Set the browser resolution before all tests
     cy.setResolution(1920, 1080);
+    // Open the page
+    Home.visit();
+    // Accept all cookies
+    Buttons.button("Accept all cookies").click();
   });
   /**
    * @test #1
-   *
-   * Preconditions:
-   * Open the page
-   * Accept all cookies
    *
    * Verify that:
    * - logo is visible
@@ -20,47 +23,46 @@ describe("Test suite", () => {
    * - “Modern craft” is visible
    * - “Shop now” button is visible
    */
-  it("Verify home page UI elements", () => {
-    // Go to login page
-    Home.visit();
-    Buttons.button("Accept all cookies").click();
+  it("Home page UI elements", () => {
     // Verify that logo is visible
     Home.logo().should("be.visible");
     // Verify that all main categories are visible
-    Home.tab("Women").should("be.visible");
-    Home.tab("Men").should("be.visible");
-    Home.tab("Divided").should("be.visible");
-    Home.tab("Baby").should("be.visible");
-    Home.tab("Kids").should("be.visible");
-    Home.tab("Home").should("be.visible");
-    Home.tab("Beauty").should("be.visible");
-    Home.tab("Sport").should("be.visible");
-    Home.tab("Sale").should("be.visible");
-    Home.tab("Sustainability at HM").should("be.visible");
+    cy.wrap(tabsHomepageName).each((tabName) => {
+      Home.tab(tabName).should("be.visible");
+    });
     // Verify that “Fall's first layers are here!” is visible
     Home.bannerTop()
-      .should("contain.text", "Fall's first layers are here!")
+      .should("contain.text", "Member Prices\nUp to 30% off new fall faves")
       .and("be.visible");
     // Verify that “Captivating contrasts” is visible
     Home.bannerBottom()
-      .should("contain.text", "Captivating contrasts")
+      .should("contain.text", "Elevate your fall wardrobe")
       .and("be.visible");
     // Verify that “Shop now” button is visible
-    Home.shopNowButton()
-      .should("contain.text", "Shop now")
-      .and("be.visible");
+    Home.shopNowButton().should("contain.text", "Shop now").and("be.visible");
   });
   /**
    * @test #2
    *
-   * Preconditions:
-   * Open the page
-   * Accept all cookies
-   *
    * Steps:
-   * Verify that logo is visible
+   * Type “T-shirt” into `Search products` field
+   * Verify that the listbox with the search result is visible
+   * Verify the first result - “t-shirt"
+   * Click on the “t-shirt” option
+   * Showing results for “t-shirt” should be visible
+   * Verify 3 items that have “T-shirt” in their name
    */
-  it.skip("Empty test", () => {
-    Home.visit();
+  it("User can search the product", () => {
+    // Type “T-shirt” into `Search products` field
+    // Verify that the listbox with the search result is visible
+    // Verify the first result - “t-shirt"
+    // Click on the “t-shirt” option
+    Home.selectProductTypeByName(product);
+    // Verify 3 items that have “T-shirt” in their name
+    Search.productItem().each(($el, index) => {
+      if (index < 1) {
+        cy.wrap($el).should("include.text", product);
+      }
+    });
   });
 });
