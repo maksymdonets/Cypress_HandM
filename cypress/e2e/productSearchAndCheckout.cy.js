@@ -1,7 +1,9 @@
 import Home from "../pages/Home";
 import Search from "../pages/Search";
+import Product from "../pages/Product";
 import Buttons from "../pages/elements/buttons/Buttons";
 import tabsHomepageName from "../pages/tabs/tabsHomepage";
+import tShirtFirst from "../fixtures/tShirtFirst.json";
 
 describe("Test suite", () => {
   const product = "T-shirt";
@@ -64,5 +66,33 @@ describe("Test suite", () => {
         cy.wrap($el).should("include.text", product);
       }
     });
+  });
+  /**
+   * @test #3
+   *
+   * Click on a name of the first item
+   * Verify that product page is opened:
+   * - the name on the page is the same as what the user clicked on
+   * - the price on the page is the same as on the item
+   * - the field “Select size” should be visible
+   * - the “Add to bag” button should be visible
+   * - the image should be visible
+   */
+  it.only("User can view the specific product", () => {
+    // Click on a name of the first item
+    Home.selectProductTypeByName(product);
+    Search.productItem().first().click();
+    // Verify that product page is opened:
+    cy.url().should("include", "/productpage");
+    // Verify the name on the page is the same as what the user clicked on
+    Product.productName().should("have.text", tShirtFirst.productName);
+    // Verify the price on the page is the same as on the item
+    Product.productPrice().should("have.text", tShirtFirst.productPrice);
+    // Verify the field “Select size” should be visible
+    Product.selectSizeDropdown().should("be.visible");
+    // Verify the “Add to bag” button should be visible
+    Product.button("Add to bag").should('be.visible');
+    // Verify the image should be visible
+    Product.productImage().should("be.visible");
   });
 });
