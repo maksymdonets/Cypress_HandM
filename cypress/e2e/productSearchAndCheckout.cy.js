@@ -122,7 +122,7 @@ describe("Test suite", () => {
     // Select any available size
     Product.selectProductSize("XL");
     // Click on “Add to bag”
-    Product.button("Add to bag").click();
+    Product.button(" Add to bag").click();
     // TODO: All following code blocked by the "Adding to the card" bug
     Product.cartQt().should("not.include.text", "0");
     // Go to “Shopping Bag”
@@ -155,6 +155,6 @@ describe("Test suite", () => {
     // Shipping = $5.99
     Product.shippingValue().should("have.text", tShirtFirst.shipingPrice);
     // Total = Order Value + Shipping
-    Product.totalValue(), should("have.text", totalAmount,toString());
+    Product.totalValue().should("have.text", totalAmount,toString());
   });
 });
