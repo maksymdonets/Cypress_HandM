@@ -4,9 +4,16 @@ import Product from "../pages/Product";
 import Buttons from "../pages/elements/buttons/Buttons";
 import tabsHomepageName from "../pages/tabs/tabsHomepage";
 import tShirtFirst from "../fixtures/tShirtFirst.json";
+import Cart from "../pages/Cart";
 
 describe("Test suite", () => {
   const product = "T-shirt";
+  // Calculate Order + Shiping amount - Sale
+  const sameAmount = 1.04
+  const orderAmount = parseFloat(tShirtFirst.productPrice.replace("$", ""));
+  const shippingAmount = parseFloat(tShirtFirst.shipingPrice.replace("$", ""));
+  const totalAmount = orderAmount + shippingAmount - sameAmount;
+
   beforeEach(() => {
     // Set the browser resolution before all tests
     cy.setResolution(1920, 1080);
@@ -78,7 +85,7 @@ describe("Test suite", () => {
    * - the “Add to bag” button should be visible
    * - the image should be visible
    */
-  it.only("User can view the specific product", () => {
+  it("User can view the specific product", () => {
     // Click on a name of the first item
     Home.selectProductTypeByName(product);
     Search.productItem().first().click();
@@ -91,8 +98,63 @@ describe("Test suite", () => {
     // Verify the field “Select size” should be visible
     Product.selectSizeDropdown().should("be.visible");
     // Verify the “Add to bag” button should be visible
-    Product.button("Add to bag").should('be.visible');
+    Product.button("Add to bag").should("be.visible");
     // Verify the image should be visible
     Product.productImage().should("be.visible");
+  });
+  /**
+   * @test #4
+   *
+   * Select color
+   * Select any available size
+   * Click on “Add to bag”
+   * Go to “Shopping Bag”
+   * Verify that your product in the cart:
+   * - should be 1 item in the cart
+   * - the item should have the correct product name, color, size and total (price)
+   */
+  it.skip("User can select product and add to cart", () => {
+    // Precondition
+    Home.selectProductTypeByName(product);
+    Search.productItem().first().click();
+    // Select color
+    Product.productPurpleColor().click();
+    // Select any available size
+    Product.selectProductSize("XL");
+    // Click on “Add to bag”
+    Product.button("Add to bag").click();
+    // TODO: All following code blocked by the "Adding to the card" bug
+    Product.cartQt().should("not.include.text", "0");
+    // Go to “Shopping Bag”
+    Product.cart().click();
+    // Verify that your product in the cart
+    Cart.productListName().should("have.text", tShirtFirst.productName);
+    // Verify that should be 1 item in the cart
+    Cart.productList().should("have.length", 0);
+    Cart.productQt().should("include.text", "0");
+    // Verify that the item should have the correct product name, color, size and total (price)
+    Cart.productColor().should("have.text", "Purple");
+    Cart.productPrice().should("have.text", "$5.95");
+  });
+  /**
+   * @test #4
+   *
+   * Order value should equal to item price
+   * Shipping = $5.99
+   * Total = Order Value + Shipping
+   */
+  it.skip("User can select product and add to cart", () => {
+    // TODO: All following code blocked by the "Adding to the card" bug
+    // Precondition
+    Home.selectProductTypeByName(product);
+    Search.productItem().first().click();
+    Product.productPurpleColor().click();
+    Product.selectProductSize("XL");
+    // Order value should equal to item price
+    Product.orderValue().should("have.text", tShirtFirst.productPrice);
+    // Shipping = $5.99
+    Product.shippingValue().should("have.text", tShirtFirst.shipingPrice);
+    // Total = Order Value + Shipping
+    Product.totalValue(), should("have.text", totalAmount,toString());
   });
 });
