@@ -118,9 +118,9 @@ describe("Test suite", () => {
     Home.selectProductTypeByName(product);
     Search.productItem().first().click();
     // Select color
-    Product.productPurpleColor().click();
+    Product.productPinkColor().click();
     // Select any available size
-    Product.selectProductSize("XL");
+    Product.selectProductSize("M");
     // Click on “Add to bag”
     Product.button(" Add to bag").click();
     // TODO: All following code blocked by the "Adding to the card" bug
@@ -131,7 +131,7 @@ describe("Test suite", () => {
     Cart.productListName().should("have.text", tShirtFirst.productName);
     // Verify that should be 1 item in the cart
     Cart.productList().should("have.length", 0);
-    Cart.productQt().should("include.text", "0");
+    Cart.productQt().should("include.text", "1");
     // Verify that the item should have the correct product name, color, size and total (price)
     Cart.productColor().should("have.text", "Purple");
     Cart.productPrice().should("have.text", "$5.95");

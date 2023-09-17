@@ -12,10 +12,7 @@ export default {
     cy.xpath(
       '//*[@id="main-content"]/div[1]/div[2]/div[1]/div[1]/div/figure[2]/img'
     ),
-  productPurpleColor: () =>
-    cy.xpath(
-      '//*[@id="main-content"]/div[1]/div[2]/div[1]/div[2]/div/div/div[1]/div[1]/ul/li[1]/ul/li[5]'
-    ),
+  productPinkColor: () => cy.xpath('//*[@id="filter-colour-0608945093"]'),
   cart: () => cy.xpath('//*[@id="nav-mini-cart"]/span[1]'),
   cartQt: () => cy.get('[class*="MiniCart"]'),
   selectProductSize(productSize) {

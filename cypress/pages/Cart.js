@@ -1,7 +1,4 @@
-import Buttons from "./elements/buttons/Buttons";
-
 export default {
-  ...Buttons,
   url: "/cart",
   productList: () =>
     cy.xpath('//*[@id="sidebar-sticky-boundary"]/section[1]/div/ul').next(),

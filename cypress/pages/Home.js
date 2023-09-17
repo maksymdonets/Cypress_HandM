@@ -1,7 +1,4 @@
-import Buttons from "./elements/buttons/Buttons";
-
 export default {
-  ...Buttons,
   url: "/",
   visit() {
     cy.visit(this.url);
