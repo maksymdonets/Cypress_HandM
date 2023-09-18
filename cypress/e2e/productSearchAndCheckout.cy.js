@@ -9,7 +9,7 @@ import Cart from "../pages/Cart";
 describe("Test suite", () => {
   const product = "T-shirt";
   // Calculate Order + Shiping amount - Sale
-  const sameAmount = 1.04
+  const sameAmount = 1.04;
   const orderAmount = parseFloat(tShirtFirst.productPrice.replace("$", ""));
   const shippingAmount = parseFloat(tShirtFirst.shipingPrice.replace("$", ""));
   const totalAmount = orderAmount + shippingAmount - sameAmount;
@@ -59,7 +59,7 @@ describe("Test suite", () => {
    * Verify the first result - “t-shirt"
    * Click on the “t-shirt” option
    * Showing results for “t-shirt” should be visible
-   * Verify 3 items that have “T-shirt” in their name
+   * Verify first item that have“T-shirt” in their name
    */
   it("User can search the product", () => {
     // Type “T-shirt” into `Search products` field
@@ -67,7 +67,7 @@ describe("Test suite", () => {
     // Verify the first result - “t-shirt"
     // Click on the “t-shirt” option
     Home.selectProductTypeByName(product);
-    // Verify 3 items that have “T-shirt” in their name
+    // Cerify first item that have“T-shirt” in their name
     Search.productItem().each(($el, index) => {
       if (index < 1) {
         cy.wrap($el).should("include.text", product);
@@ -155,6 +155,6 @@ describe("Test suite", () => {
     // Shipping = $5.99
     Product.shippingValue().should("have.text", tShirtFirst.shipingPrice);
     // Total = Order Value + Shipping
-    Product.totalValue().should("have.text", totalAmount,toString());
+    Product.totalValue().should("have.text", totalAmount, toString());
   });
 });
