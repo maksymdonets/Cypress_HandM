@@ -9,10 +9,10 @@ import Cart from "../pages/Cart";
 describe("Test suite", () => {
   const product = "T-shirt";
   // Calculate Order + Shiping amount - Sale
-  const sameAmount = 1.04;
+  const saleAmount = 1.04;
   const orderAmount = parseFloat(tShirtFirst.productPrice.replace("$", ""));
   const shippingAmount = parseFloat(tShirtFirst.shipingPrice.replace("$", ""));
-  const totalAmount = orderAmount + shippingAmount - sameAmount;
+  const totalAmount = orderAmount + shippingAmount - saleAmount;
 
   beforeEach(() => {
     // Set the browser resolution before all tests
